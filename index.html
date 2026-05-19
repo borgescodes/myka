@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Um Sudoku fofo, romântico e kawaii feito especialmente para a minha jogadora favorita."
+    />
+    <title>Sudoku da minha diva</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="pattern-layer" aria-hidden="true"></div>
+    <div class="floating-stickers" aria-hidden="true">
+      <span class="sticker sticker-heart">♡</span>
+      <span class="sticker sticker-star">✦</span>
+      <span class="sticker sticker-cloud"></span>
+      <span class="sticker sticker-sparkle">✧</span>
+      <span class="sticker sticker-heart small">♡</span>
+    </div>
+
+    <main class="app-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="mini-bow" aria-hidden="true"></span>
+            Pra minha jogadora favorita
+          </div>
+          <h1>Sudoku da minha diva</h1>
+          <p>Um joguinho feito especialmente pra você, com carinho, rosa e muita energia de diva.</p>
+        </div>
+
+        <div class="mascot-wrap" aria-label="Gatinha kawaii decorativa">
+          <div class="asset-slot logo-slot" data-asset-slot="logo.png" data-asset-alt="Logo personalizado">
+            <div class="logo-fallback fallback">SD</div>
+          </div>
+          <div class="asset-slot cat-slot" data-asset-slot="cat.png" data-asset-alt="Gatinha personalizada">
+            <div class="css-cat fallback" aria-hidden="true">
+              <span class="ear left"></span>
+              <span class="ear right"></span>
+              <span class="cat-face">
+                <span class="eye left"></span>
+                <span class="eye right"></span>
+                <span class="nose"></span>
+                <span class="whisker w1"></span>
+                <span class="whisker w2"></span>
+                <span class="whisker w3"></span>
+                <span class="whisker w4"></span>
+              </span>
+              <span class="cat-bow"></span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="love-note" aria-label="Mensagem personalizada">
+        <span class="note-icon" aria-hidden="true">♡</span>
+        <p>Cada número certo é só mais uma prova de que você nasceu pra divar.</p>
+      </section>
+
+      <section class="resume-panel hidden" id="resumePanel" aria-live="polite">
+        <div>
+          <strong>Babado, mana:</strong>
+          encontrei uma partida salva pra continuar.
+        </div>
+        <div class="resume-actions">
+          <button class="soft-button" id="continueGameButton" type="button">Continuar</button>
+          <button class="ghost-button" id="discardSaveButton" type="button">Novo jogo</button>
+        </div>
+      </section>
+
+      <section class="game-layout" aria-label="Área do jogo">
+        <article class="sudoku-card">
+          <div class="card-topline">
+            <div>
+              <p class="section-label">Tabuleiro</p>
+              <h2>Resolva no seu tempo, mana</h2>
+            </div>
+            <div class="tiny-sticker" aria-hidden="true">
+              <span class="asset-slot bow-slot" data-asset-slot="bow.png" data-asset-alt="Laço personalizado">
+                <span class="css-bow fallback"></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="board-frame">
+            <div class="sudoku-board" id="sudokuBoard" role="grid" aria-label="Tabuleiro de Sudoku 9 por 9"></div>
+          </div>
+
+          <div class="number-pad" id="numberPad" aria-label="Teclado numérico do Sudoku">
+            <button type="button" data-number="1">1</button>
+            <button type="button" data-number="2">2</button>
+            <button type="button" data-number="3">3</button>
+            <button type="button" data-number="4">4</button>
+            <button type="button" data-number="5">5</button>
+            <button type="button" data-number="6">6</button>
+            <button type="button" data-number="7">7</button>
+            <button type="button" data-number="8">8</button>
+            <button type="button" data-number="9">9</button>
+          </div>
+        </article>
+
+        <aside class="side-panel" aria-label="Controles e informações">
+          <div class="stats-row">
+            <div class="stat-pill">
+              <span>Tempo</span>
+              <strong id="timer">00:00</strong>
+            </div>
+            <div class="stat-pill">
+              <span>Erros</span>
+              <strong id="errors">0</strong>
+            </div>
+          </div>
+
+          <div class="difficulty-box">
+            <p class="section-label">Dificuldade</p>
+            <div class="difficulty-controls" id="difficultyControls" role="group" aria-label="Escolher dificuldade">
+              <button type="button" data-difficulty="easy">Fácil</button>
+              <button type="button" data-difficulty="medium">Médio</button>
+              <button type="button" data-difficulty="hard">Difícil</button>
+            </div>
+          </div>
+
+          <div class="actions-grid" aria-label="Ações do jogo">
+            <button class="primary-button" id="hintButton" type="button">
+              <span aria-hidden="true">✦</span>
+              Dica
+            </button>
+            <button class="soft-button" id="checkButton" type="button">
+              <span aria-hidden="true">✓</span>
+              Verificar
+            </button>
+            <button class="soft-button" id="newGameButton" type="button">
+              <span aria-hidden="true">↻</span>
+              Novo jogo
+            </button>
+            <button class="ghost-button" id="clearButton" type="button">
+              <span aria-hidden="true">⌫</span>
+              Limpar
+            </button>
+          </div>
+
+          <div class="message-box" aria-live="polite">
+            <div class="asset-slot heart-slot" data-asset-slot="heart.png" data-asset-alt="Coração personalizado">
+              <span class="fallback heart-fallback">♡</span>
+            </div>
+            <p id="gameMessage">Tá entregando. Escolha uma célula e bora divar.</p>
+          </div>
+
+          <div class="progress-box">
+            <div class="progress-copy">
+              <span>Progresso</span>
+              <strong id="progressText">0/81</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <span id="progressBar"></span>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Feito com carinho pra transformar até Sudoku em um presente fofo.
+    </footer>
+
+    <div class="victory-modal hidden" id="victoryModal" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
+      <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+      <div class="victory-card">
+        <span class="victory-kicker">♡ Foi tudo</span>
+        <h2 id="victoryTitle">A diva venceu</h2>
+        <p id="victoryMessage">
+          Isso foi muito diva. Você resolveu tudo no seu tempo e ainda deixou o tabuleiro mais fofo.
+        </p>
+        <button class="primary-button" id="playAgainButton" type="button">Jogar de novo</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
