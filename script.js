@@ -307,6 +307,7 @@ function renderAll() {
   renderStats();
   renderDifficulty();
   renderProgress();
+  renderNumberPad();
 }
 
 function renderBoard() {
@@ -373,6 +374,20 @@ function renderBoard() {
   }
 
   boardElement.replaceChildren(fragment);
+  renderNumberPad();
+}
+
+function renderNumberPad() {
+  if (!numberPad) {
+    return;
+  }
+
+  const selectedValue = selectedCell ? state.board[selectedCell.row][selectedCell.col] : 0;
+  numberPad.querySelectorAll("button[data-number]").forEach((button) => {
+    const isActive = selectedValue !== 0 && Number(button.dataset.number) === selectedValue;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
 }
 
 function handleBoardClick(event) {

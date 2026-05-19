@@ -21,6 +21,7 @@ html {
   min-height: 100%;
   color: var(--text);
   background: #fff7fb;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -34,10 +35,13 @@ body {
     radial-gradient(circle at 88% 8%, rgba(231, 214, 255, 0.7) 0 14%, transparent 28%),
     linear-gradient(145deg, #fffafd 0%, #ffeaf4 48%, #f5edff 100%);
   overflow-x: hidden;
+  overscroll-behavior-y: contain;
 }
 
 button {
   font: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .pattern-layer {
@@ -520,6 +524,8 @@ body.has-pattern .pattern-layer {
   font-weight: 900;
   line-height: 1;
   cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
   transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
 }
 
@@ -602,12 +608,28 @@ body.has-pattern .pattern-layer {
   font-size: 1.25rem;
 }
 
-.number-pad button:hover,
-.difficulty-controls button:hover,
-.primary-button:hover,
-.soft-button:hover,
-.ghost-button:hover {
-  transform: translateY(-2px);
+.number-pad button.active {
+  color: #fff;
+  background: linear-gradient(145deg, var(--pink-main), var(--pink-strong));
+  box-shadow: 0 12px 26px rgba(255, 95, 162, 0.22);
+}
+
+@media (hover: hover) {
+  .number-pad button:hover,
+  .difficulty-controls button:hover,
+  .primary-button:hover,
+  .soft-button:hover,
+  .ghost-button:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.number-pad button:active,
+.difficulty-controls button:active,
+.primary-button:active,
+.soft-button:active,
+.ghost-button:active {
+  transform: translateY(1px) scale(0.98);
 }
 
 .number-pad button:focus-visible,
@@ -859,13 +881,109 @@ body.has-pattern .pattern-layer {
 }
 
 @media (max-width: 620px) {
+  body {
+    background:
+      radial-gradient(circle at 18% 8%, rgba(255, 143, 199, 0.2) 0 18%, transparent 33%),
+      linear-gradient(180deg, #fff7fb 0%, #ffeefa 48%, #f7f0ff 100%);
+  }
+
+  .floating-stickers {
+    opacity: 0.42;
+  }
+
+  .sticker-heart {
+    top: 5%;
+    left: auto;
+    right: 12px;
+    font-size: 2.2rem;
+  }
+
+  .sticker-star,
+  .sticker-sparkle,
+  .sticker-cloud,
+  .sticker-heart.small {
+    display: none;
+  }
+
   .app-shell {
-    width: min(100% - 20px, 1180px);
-    padding-top: 18px;
+    width: 100%;
+    padding: 10px 8px 8px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 86px;
+    gap: 8px;
+    align-items: center;
+    padding: 4px 2px 2px;
+    text-align: left;
+  }
+
+  .hero-copy {
+    justify-items: start;
+  }
+
+  .eyebrow {
+    max-width: 100%;
+    gap: 6px;
+    padding: 6px 9px;
+    font-size: 0.64rem;
   }
 
   .hero h1 {
-    font-size: clamp(2.4rem, 15vw, 4rem);
+    margin: 8px 0 4px;
+    font-size: clamp(2rem, 12vw, 3.15rem);
+    line-height: 0.98;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .mascot-wrap {
+    justify-self: end;
+    width: 86px;
+    min-height: 92px;
+    overflow: visible;
+  }
+
+  .logo-slot {
+    display: none;
+  }
+
+  .cat-slot {
+    width: 86px;
+    height: 82px;
+    transform: scale(0.58);
+    transform-origin: center right;
+  }
+
+  .css-cat {
+    margin-top: 0;
+    animation: none;
+  }
+
+  .love-note {
+    gap: 8px;
+    margin: 8px 0 10px;
+    padding: 10px 12px;
+    border-radius: 18px;
+    box-shadow: 0 12px 28px rgba(119, 53, 88, 0.12);
+  }
+
+  .love-note p {
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+
+  .note-icon {
+    flex-basis: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .game-layout {
+    gap: 10px;
   }
 
   .love-note,
@@ -885,16 +1003,46 @@ body.has-pattern .pattern-layer {
 
   .sudoku-card,
   .side-panel {
-    border-radius: 22px;
+    border-radius: 18px;
+    box-shadow: 0 14px 34px rgba(119, 53, 88, 0.14);
+  }
+
+  .sudoku-card {
+    padding: 10px;
+  }
+
+  .card-topline {
+    margin-bottom: 10px;
+  }
+
+  .card-topline h2 {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .section-label {
+    margin-bottom: 4px;
+    font-size: 0.68rem;
+  }
+
+  .tiny-sticker {
+    display: none;
   }
 
   .sudoku-board {
+    width: min(100%, calc(100vw - 20px));
     border-width: 2px;
-    border-radius: 14px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px rgba(255, 143, 199, 0.2), 0 10px 22px rgba(119, 53, 88, 0.12);
   }
 
   .cell {
-    font-size: clamp(1rem, 6.7vw, 1.5rem);
+    font-size: clamp(1rem, 6.4vw, 1.55rem);
+  }
+
+  .cell.selected {
+    transform: none;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.72), 0 0 0 2px rgba(255, 95, 162, 0.2);
   }
 
   .cell.block-right {
@@ -906,16 +1054,151 @@ body.has-pattern .pattern-layer {
   }
 
   .number-pad {
-    grid-template-columns: repeat(5, 1fr);
+    position: sticky;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 5;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px -2px 0;
+    padding: 10px;
+    border: 1px solid rgba(255, 143, 199, 0.34);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 16px 34px rgba(119, 53, 88, 0.16);
+    backdrop-filter: blur(14px);
   }
 
   .number-pad button {
-    min-height: 52px;
+    min-height: 48px;
+    border-radius: 16px;
+    font-size: 1.18rem;
   }
 
-  .actions-grid,
+  .side-panel {
+    gap: 10px;
+    padding: 12px;
+  }
+
   .stats-row {
-    grid-template-columns: 1fr;
+    order: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-pill {
+    padding: 10px 12px;
+    border-radius: 16px;
+  }
+
+  .stat-pill strong {
+    font-size: 1.25rem;
+  }
+
+  .progress-box {
+    order: 1;
+  }
+
+  .message-box {
+    order: 2;
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .message-box p {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .heart-slot {
+    width: 34px;
+    height: 34px;
+    font-size: 1.25rem;
+  }
+
+  .actions-grid {
+    order: 3;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .difficulty-box {
+    order: 4;
+  }
+
+  .difficulty-controls {
+    gap: 6px;
+  }
+
+  .difficulty-controls button,
+  .primary-button,
+  .soft-button,
+  .ghost-button {
+    min-height: 46px;
+    padding: 0 10px;
+    font-size: 0.9rem;
+  }
+
+  .progress-track {
+    height: 10px;
+  }
+
+  .site-footer {
+    width: 100%;
+    padding: 12px 12px calc(18px + env(safe-area-inset-bottom));
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .victory-modal {
+    padding: 14px;
+  }
+
+  .victory-card {
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 390px) {
+  .app-shell {
+    padding-inline: 6px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 66px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.78rem, 11.5vw, 2.55rem);
+  }
+
+  .hero p {
+    font-size: 0.84rem;
+  }
+
+  .mascot-wrap {
+    width: 66px;
+    min-height: 76px;
+  }
+
+  .cat-slot {
+    transform: scale(0.48);
+  }
+
+  .sudoku-card {
+    padding: 8px;
+  }
+
+  .sudoku-board {
+    width: min(100%, calc(100vw - 16px));
+  }
+
+  .number-pad {
+    padding: 8px;
+  }
+
+  .number-pad button {
+    min-height: 46px;
   }
 }
 
