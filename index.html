@@ -31,6 +31,8 @@
           <p>Com carinho, rosa e muita energia de diva. Amo Você ♡ - @pedromyranda</p>
         </div>
 
+        <button class="mobile-new-button" id="mobileNewGameButton" type="button">Novo jogo</button>
+
         <div class="mascot-wrap" aria-label="Gatinha kawaii decorativa">
           <div class="asset-slot logo-slot" data-asset-slot="logo.png" data-asset-alt="Logo personalizado">
             <div class="logo-fallback fallback">SD</div>
@@ -84,20 +86,66 @@
             </div>
           </div>
 
+          <div class="mobile-statusbar" aria-label="Status da partida">
+            <label class="mobile-stat mobile-difficulty">
+              <span>Dificuldade</span>
+              <select id="mobileDifficultySelect" aria-label="Escolher dificuldade">
+                <option value="easy">Fácil</option>
+                <option value="medium">Médio</option>
+                <option value="hard">Difícil</option>
+              </select>
+            </label>
+
+            <div class="mobile-stat mobile-errors">
+              <strong id="mobileErrors">0</strong>
+              <span>Erros</span>
+            </div>
+
+            <div class="mobile-stat mobile-time">
+              <strong id="mobileTimer">00:00</strong>
+              <span>Tempo</span>
+            </div>
+
+            <div class="mobile-progress" aria-hidden="true">
+              <span id="mobileProgressBar"></span>
+            </div>
+          </div>
+
           <div class="board-frame">
             <div class="sudoku-board" id="sudokuBoard" role="grid" aria-label="Tabuleiro de Sudoku 9 por 9"></div>
           </div>
 
-          <div class="number-pad" id="numberPad" aria-label="Teclado numérico do Sudoku">
-            <button type="button" data-number="1">1</button>
-            <button type="button" data-number="2">2</button>
-            <button type="button" data-number="3">3</button>
-            <button type="button" data-number="4">4</button>
-            <button type="button" data-number="5">5</button>
-            <button type="button" data-number="6">6</button>
-            <button type="button" data-number="7">7</button>
-            <button type="button" data-number="8">8</button>
-            <button type="button" data-number="9">9</button>
+          <div class="mobile-input-dock" aria-label="Ações e números">
+            <div class="mobile-actionbar" id="mobileActionBar" aria-label="Ações rápidas">
+              <button class="icon-action" type="button" data-mobile-action="clear" aria-label="Limpar célula">
+                <span aria-hidden="true">⌫</span>
+                <span class="icon-label">Limpar</span>
+              </button>
+              <button class="icon-action" type="button" data-mobile-action="hint" aria-label="Pedir dica">
+                <span aria-hidden="true">✦</span>
+                <span class="icon-label">Dica</span>
+              </button>
+              <button class="icon-action" type="button" data-mobile-action="check" aria-label="Verificar jogo">
+                <span aria-hidden="true">✓</span>
+                <span class="icon-label">Verificar</span>
+              </button>
+              <button class="icon-action" type="button" data-mobile-action="new" aria-label="Novo jogo">
+                <span aria-hidden="true">↻</span>
+                <span class="icon-label">Novo jogo</span>
+              </button>
+            </div>
+
+            <div class="number-pad" id="numberPad" aria-label="Teclado numérico do Sudoku">
+              <button type="button" data-number="1">1</button>
+              <button type="button" data-number="2">2</button>
+              <button type="button" data-number="3">3</button>
+              <button type="button" data-number="4">4</button>
+              <button type="button" data-number="5">5</button>
+              <button type="button" data-number="6">6</button>
+              <button type="button" data-number="7">7</button>
+              <button type="button" data-number="8">8</button>
+              <button type="button" data-number="9">9</button>
+            </div>
           </div>
         </article>
 
@@ -164,6 +212,8 @@
     <footer class="site-footer">
       Feliz dia dos namorados minha gatinha, pra ti se distrair.
     </footer>
+
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
 
     <div class="victory-modal hidden" id="victoryModal" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
       <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>

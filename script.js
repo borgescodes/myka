@@ -74,6 +74,7 @@ let selectedCell = null;
 let timerId = null;
 let transientCell = null;
 let highlightedMistakes = false;
+let toastTimerId = null;
 
 const boardElement = document.getElementById("sudokuBoard");
 const numberPad = document.getElementById("numberPad");
@@ -94,6 +95,13 @@ const victoryModal = document.getElementById("victoryModal");
 const victoryMessage = document.getElementById("victoryMessage");
 const playAgainButton = document.getElementById("playAgainButton");
 const confettiLayer = document.getElementById("confettiLayer");
+const mobileTimerElement = document.getElementById("mobileTimer");
+const mobileErrorsElement = document.getElementById("mobileErrors");
+const mobileDifficultySelect = document.getElementById("mobileDifficultySelect");
+const mobileProgressBar = document.getElementById("mobileProgressBar");
+const mobileActionBar = document.getElementById("mobileActionBar");
+const mobileNewGameButton = document.getElementById("mobileNewGameButton");
+const toastElement = document.getElementById("toastStack");
 
 document.addEventListener("DOMContentLoaded", initGame);
 
@@ -118,6 +126,9 @@ function bindEvents() {
   boardElement.addEventListener("click", handleBoardClick);
   numberPad.addEventListener("click", handleNumberPadClick);
   difficultyControls.addEventListener("click", handleDifficultyClick);
+  mobileActionBar.addEventListener("click", handleMobileActionClick);
+  mobileNewGameButton.addEventListener("click", () => startNewGame(state.difficulty));
+  mobileDifficultySelect.addEventListener("change", (event) => startNewGame(event.target.value));
 
   hintButton.addEventListener("click", giveHint);
   checkButton.addEventListener("click", verifyBoard);
@@ -442,6 +453,30 @@ function handleDifficultyClick(event) {
   startNewGame(difficulty);
 }
 
+function handleMobileActionClick(event) {
+  const button = event.target.closest("button[data-mobile-action]");
+  if (!button) {
+    return;
+  }
+
+  const action = button.dataset.mobileAction;
+  if (action === "clear") {
+    clearSelection();
+  }
+
+  if (action === "hint") {
+    giveHint();
+  }
+
+  if (action === "check") {
+    verifyBoard();
+  }
+
+  if (action === "new") {
+    startNewGame(state.difficulty);
+  }
+}
+
 function placeNumber(number) {
   if (!selectedCell) {
     setMessage("Escolhe uma casinha primeiro, mana.");
@@ -691,8 +726,12 @@ function getWrongCells() {
 }
 
 function renderStats() {
-  timerElement.textContent = formatTime(state.elapsed);
-  errorsElement.textContent = String(state.errors);
+  const formattedTime = formatTime(state.elapsed);
+  const errors = String(state.errors);
+  timerElement.textContent = formattedTime;
+  errorsElement.textContent = errors;
+  mobileTimerElement.textContent = formattedTime;
+  mobileErrorsElement.textContent = errors;
 }
 
 function renderDifficulty() {
@@ -701,6 +740,7 @@ function renderDifficulty() {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
+  mobileDifficultySelect.value = state.difficulty;
 }
 
 function renderProgress() {
@@ -708,6 +748,7 @@ function renderProgress() {
   const percent = Math.round((filled / (SIDE * SIDE)) * 100);
   progressText.textContent = `${filled}/81`;
   progressBar.style.width = `${percent}%`;
+  mobileProgressBar.style.width = `${percent}%`;
 }
 
 function countEmptyCells() {
@@ -851,6 +892,24 @@ function createConfetti() {
 
 function setMessage(message) {
   messageElement.textContent = message;
+  showToast(message);
+}
+
+function showToast(message) {
+  if (!toastElement) {
+    return;
+  }
+
+  toastElement.textContent = message;
+  toastElement.classList.add("show");
+
+  if (toastTimerId) {
+    window.clearTimeout(toastTimerId);
+  }
+
+  toastTimerId = window.setTimeout(() => {
+    toastElement.classList.remove("show");
+  }, 2600);
 }
 
 function flashTransientCell() {
